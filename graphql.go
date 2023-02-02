@@ -151,7 +151,7 @@ func (c *Client) runWithJSON(ctx context.Context, req *Request, resp interface{}
 
 	if err := json.NewDecoder(&buf).Decode(&gr); err != nil {
 		if res.StatusCode != http.StatusOK {
-			return fmt.Errorf("graphql: server returned a non-200 status code: %v", res.StatusCode)
+			return errors.Errorf("graphql: server returned a non-200 status code: %v", res.StatusCode)
 		}
 		return errors.Wrap(err, "decoding response")
 	}
@@ -166,7 +166,7 @@ func (c *Client) runWithJSON(ctx context.Context, req *Request, resp interface{}
 	// it even hits an graphql handler on the server side.
 	// As a result the response returned by this non graphql component is not compliant to the graphql spec.
 	if res.StatusCode != http.StatusOK {
-		return fmt.Errorf("graphql: server returned a non-200 status code: %v - %v", res.StatusCode, bodyStr)
+		return errors.Errorf("graphql: server returned a non-200 status code: %v - %v", res.StatusCode, bodyStr)
 	}
 
 	return nil
@@ -234,7 +234,7 @@ func (c *Client) runWithPostFields(ctx context.Context, req *Request, resp inter
 
 	if err := json.NewDecoder(&buf).Decode(&gr); err != nil {
 		if res.StatusCode != http.StatusOK {
-			return fmt.Errorf("graphql: server returned a non-200 status code: %v", res.StatusCode)
+			return errors.Errorf("graphql: server returned a non-200 status code: %v", res.StatusCode)
 		}
 		return errors.Wrap(err, "decoding response")
 	}
@@ -249,7 +249,7 @@ func (c *Client) runWithPostFields(ctx context.Context, req *Request, resp inter
 	// it even hits an graphql handler on the server side.
 	// As a result the response returned by this non graphql component is not compliant to the graphql spec.
 	if res.StatusCode != http.StatusOK {
-		return fmt.Errorf("graphql: server returned a non-200 status code: %v - %v", res.StatusCode, bodyStr)
+		return errors.Errorf("graphql: server returned a non-200 status code: %v - %v", res.StatusCode, bodyStr)
 	}
 	return nil
 }
